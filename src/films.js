@@ -59,9 +59,10 @@ function hoursToMinutes(movies) {
 
 // Exercise 8: Get the best film of a year
 function bestFilmOfYear(movies, year) {
-  const moviesOfTheYear = movies.filter(movie => movie.year === year)
-  const movieOfTheYear = moviesOfTheYear.sort().slice(0, 1)
-  return movieOfTheYear
+  
+  let selectedMovies = movies.filter(movie => movie.year === year);
+  return selectedMovies.sort((a, b) => b.score - a.score).slice(0, 1);
+  
 }
 
 // The following is required to make unit tests work.
