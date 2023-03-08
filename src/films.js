@@ -1,68 +1,68 @@
 // Exercise 1: Get the array of all directors.
-function getAllDirectors(array) {
-  const directors = array.map((movie) => movie.director)
+function getAllDirectors(movies) {
+  const directors = movies.map(movie => movie.director);
   return directors;
 }
 
 // Exercise 2: Get the films of a certain director
-function getMoviesFromDirector(array, director) {
-  const directorsFilms = array.filter((movie) => movie.director === director)
-  return directorsFilms;
+function getMoviesFromDirector(movies, director) {
+  const moviesFromDirector = movies.filter(movie => movie.director === director)
+  return moviesFromDirector;
 }
 
 // Exercise 3: Calculate the average of the films of a given director.
-function moviesAverageOfDirector(array, director) {
-  const directorsFilms = getMoviesFromDirector(array, director)
-  const averageMovies = filmsNumber(directorsFilms)
-  return averageMovies
-}
-function filmsNumber(array) {
-  const averageMovies = array.reduce((sumFilms, movie) => sumFilms + movie.score, 0)
-  return Number((averageMovies / array.length).toFixed(2))
+function moviesAverageOfDirector(movies, director) {
+  const moviesFromDirector = getMoviesFromDirector(movies, director)
+  const averageScore = moviesFromDirector.reduce((average, movie) => average += movie.score, 0)
+  console.log(averageScore)
+  return Number((averageScore / moviesFromDirector.length).toFixed(2));
 }
 
 // Exercise 4:  Alphabetic order by title 
-function orderAlphabetically(array) {
-  const sortedTitles = (array.map(movies => movies.title)).sort().slice(0, 20);
-  return sortedTitles;
+function orderAlphabetically(movies) {
+  const sortByTitle = movies.map((movie) => movie.title).sort().slice(0, 20)
+  return sortByTitle
 }
-
 
 // Exercise 5: Order by year, ascending
-function orderByYear(array) {
-  const orderYears = array.sort((movie1, movie2) => {
-    if (movie1.year === movie2.year) {
-      return movie1.title > movie2.title ? 1 : -1;
+function orderByYear(movies) {
+  const sortByYear = [...movies].sort((a, z) => {
+    if (a.year === z.year) {
+      return a.title.localeCompare(z.title)
     }
-      return movie1.year > movie2.year ? 1 : -1;
-  });
-  return [...orderYears];
+    return a.year - z.year
+  })
+  return sortByYear
 }
-
 
 // Exercise 6: Calculate the average of the movies in a category
-function moviesAverageByCategory(array, genre) {
-  const arrayGenre = array.filter((movie) => movie.genre.find(genreMovie => genreMovie === genre))
-  arrayGenre.map((movieGenre) =>{    
-    if (!movieGenre.score) {
-    const movieEliminated = arrayGenre.findIndex(movie => movie === movieGenre)
-    arrayGenre.splice(movieEliminated, 1)
-  }})
-
-  const averageGenre = moviesAverage(arrayGenre)
-  return averageGenre
+function moviesAverageByCategory(movies, genre) {
+  const moviesByGenre = movies.filter(movie => movie.genre.includes(genre) && movie.score !== '')
+  const averageByGenre = moviesByGenre.reduce((average, movie) => average += movie.score, 0)
+  return Number((averageByGenre / moviesByGenre.length).toFixed(2));
 }
-// Exercise 7: Modify the duration of movies to minutes
-function hoursToMinutes() {
 
+// Exercise 7: Modify the duration of movies to minutes
+function hoursToMinutes(movies) {
+  const minutesDuration = movies.map(movie => {
+    const filmDuration = movie.duration
+    const splitHours = filmDuration.split('h')
+    const splitMinutes = filmDuration.split('h ')
+    const durationToMinutes = Number(parseInt(splitHours[0]) * 60 + (splitMinutes.length > 1 ? parseInt(splitMinutes[1]) : 0))
+    return {
+      ...movie,
+      duration: durationToMinutes
+    }
+  })
+  return minutesDuration
 }
 
 // Exercise 8: Get the best film of a year
-function bestFilmOfYear() {
-  
+function bestFilmOfYear(movies, year) {
+  const moviesOfTheYear = movies.filter(movie => movie.year === year)
+  const movieOfTheYear = moviesOfTheYear.sort().slice(0, 1)
+  return movieOfTheYear
 }
-
-
 
 // The following is required to make unit tests work.
 /* Environment setup. Do not modify the below code. */
